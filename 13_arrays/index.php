@@ -1,30 +1,26 @@
+
+#Ejemplo 3
 <?php
-#Ejemplo 1
+$num1 = array (10,25.5,30,42.75);
 
-$frutas = array("manzana", "naranja", "platano");
-echo "Ejemplo 1: Primera fruta: " . $frutas[0] . "\n";
-echo "Ejemplo 2: Primera fruta: " . $frutas[1] . "\n";
-?>
+echo "Primero numero: " . $num1[0]. PHP_EOL;
+echo "Segundo numero: " . $num1[1]. PHP_EOL;
+echo "Tercero numero: " . $num1[2]. PHP_EOL;
+echo "Cuarto numero: " . $num1[3]. PHP_EOL;
 
-<?php
-#Ejemplo 2
-$letras = array("A", "B", "C", "D", "E");
+$suma = array_sum($num1);
 
-foreach ($letras as $letra) {
-    echo "Letra: " . $letra . "\n";
+$cantidad = count($num1);
+
+$promedio = $suma / $cantidad;
+
+echo "Suma total: " . $suma . PHP_EOL;
+echo "Cantidad de elementos: ". $cantidad . PHP_EOL;
+echo "Promedio : ". number_format($promedio, 2). PHP_EOL;
+
+echo "Listado de numeros: " . PHP_EOL;
+foreach($num1 as $num){
+    echo $num . PHP_EOL;
 }
-?>
-<?php
-$numeros = array(10, 25, 5, 30, 42, 75);
 
-echo "Ejemplo 1: Primera numero: " . $numeros[0] . "\n";
-echo "Ejemplo 2: Segundo numero: " . $numeros[1] . "\n";
-echo "Ejemplo 3: Tercero numero: " . $numeros[2] . "\n";
-echo "Ejemplo 4: Cuarto numero: " . $numeros[3] . "\n";
-
-echo "Listado completo de numeros:";
-foreach ($numeros as $num) {
-    echo $num . "\n";
-}
-?>
 

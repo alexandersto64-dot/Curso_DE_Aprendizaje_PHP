@@ -108,4 +108,29 @@ switch ($operacion) {
 <?php
 // Solicitar primer número
 echo "Ingrese el primer numero: ";
-$numero1 = (float) trim(fgets(STDIN));
+$numero1 = trim(fgets(STDIN));
+
+switch ($numero1) {
+    case 1:
+    case 2:
+    case 12:
+        echo "La estacion del año es Primavera\n";
+        break;
+    case 3:
+    case 4:
+    case 5: 
+        echo "La estacionn del año es Verano\n";
+        break;
+    case 6:
+    case 7:
+    case 8:
+        echo "La estacion del año es Otoño\n";
+        break;
+    case 9:
+    case 10:
+    case 11:
+        echo "La estacion del año es Invierno|\n";
+        break;
+        default:
+        echo "Numero del mes invalido\n";
+}
