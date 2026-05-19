@@ -2,7 +2,7 @@
 $host = "localhost";
 $usuario = "root";
 $contrasena = "";
-$base_datos = "gestion_alumnos"; // prueba vacío
+$base_datos = "gestion_productos"; // prueba vacío
 
 // Validar nombre de la base de datos
 if (empty(trim($base_datos))) {

@@ -2,83 +2,79 @@
 include 'db.php';
 
 // ====================================
-// OBTENER DATOS DEL ALUMNO
-// ====================================
-
-if (isset($_GET['id'])) {
-
-    $id = $_GET['id'];
-
-    $stmt = $pdo->prepare("SELECT * FROM view_alumnos WHERE idalumno = ?");
-    $stmt->execute([$id]);
-
-    $alumno = $stmt->fetch();
-}
-
-// ====================================
-// ACTUALIZAR DATOS
+// INSERTAR DATOS
 // ====================================
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $id          = $_POST['id'];
-    $dni         = $_POST['dni'];
-    $nombres     = $_POST['nombres'];
-    $apellidos   = $_POST['apellidos'];
-    $direccion   = $_POST['direccion'];
-    $telefono    = $_POST['telefono'];
-    $carrera_id  = $_POST['carrera_id'];
-    $curso_id    = $_POST['curso_id'];
-    $ciclo_id    = $_POST['ciclo_id'];
-    $promedio    = $_POST['promedio'];
+    $dni       = $_POST['dni'];
+    $nombres   = $_POST['nombres'];
+    $apellidos = $_POST['apellidos'];
+    $direccion = $_POST['direccion'];
+    $telefono  = $_POST['telefono'];
 
-    // ====================================
-    // UPDATE ALUMNO
-    // ====================================
+    $carrera_id = $_POST['carrera_id'];
+    $curso_id   = $_POST['curso_id'];
+    $ciclo_id   = $_POST['ciclo_id'];
 
-    $stmtAlumno = $pdo->prepare("
-        UPDATE alumno
-        SET
-            dni = ?,
-            nombres = ?,
-            apellidos = ?,
-            direccion = ?,
-            telefono = ?,
-            carrera_id = ?
-        WHERE idalumno = ?
+    $promedio   = $_POST['promedio'];
+
+    $fecha_matricula = date('Y-m-d');
+
+    // INSERTAR ALUMNO
+    $stmt = $pdo->prepare("
+        INSERT INTO alumno
+        (
+            dni,
+            nombres,
+            apellidos,
+            direccion,
+            telefono,
+            carrera_id
+        )
+        VALUES
+        (
+            ?, ?, ?, ?, ?, ?
+        )
     ");
 
-    $stmtAlumno->execute([
+    $stmt->execute([
         $dni,
         $nombres,
         $apellidos,
         $direccion,
         $telefono,
-        $carrera_id,
-        $id
+        $carrera_id
     ]);
 
-    // ====================================
-    // UPDATE MATRÍCULA
-    // ====================================
+    $nuevo_id = $pdo->lastInsertId();
 
+    // INSERTAR MATRÍCULA
     $stmtMatricula = $pdo->prepare("
-        UPDATE matricula
-        SET
-            curso_id = ?,
-            ciclo_id = ?,
-            promedio = ?
-        WHERE alumno_id = ?
+        INSERT INTO matricula
+        (
+            alumno_id,
+            curso_id,
+            ciclo_id,
+            fecha_matricula,
+            promedio
+        )
+        VALUES
+        (
+            ?, ?, ?, ?, ?
+        )
     ");
 
     $stmtMatricula->execute([
+        $nuevo_id,
         $curso_id,
         $ciclo_id,
-        $promedio,
-        $id
+        $fecha_matricula,
+        $promedio
     ]);
 
     header("Location: index.php");
+
     exit();
 }
 
@@ -86,27 +82,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // COMBOBOX
 // ====================================
 
-$carreras = $pdo->query("SELECT * FROM view_combo_carreras")->fetchAll();
+$carreras = $pdo->query("
+    SELECT * FROM view_combo_carreras
+")->fetchAll();
 
-$cursos = $pdo->query("SELECT * FROM view_combo_cursos")->fetchAll();
+$cursos = $pdo->query("
+    SELECT * FROM view_combo_cursos
+")->fetchAll();
 
-$ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
-
+$ciclos = $pdo->query("
+    SELECT * FROM view_combo_ciclos
+")->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Alumno</title>
+
+    <title>Crear Alumno</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        rel="stylesheet">
+
 </head>
 
 <body class="bg-light">
@@ -115,15 +124,16 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
 
         <div class="card shadow p-4">
 
+            <!-- TITULO -->
             <h2 class="text-center mb-4">
-                <i class="fa-solid fa-user-pen"></i>
-                Editar Alumno
+
+                <i class="fa-solid fa-user-graduate"></i>
+                Nuevo Alumno
+
             </h2>
 
+            <!-- FORM -->
             <form action="" method="POST">
-
-                <!-- ID -->
-                <input type="hidden" name="id" value="<?= $alumno['idalumno'] ?>">
 
                 <div class="row g-3">
 
@@ -131,15 +141,17 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-id-card"></i>
                             DNI
+
                         </label>
 
                         <input
                             type="text"
                             name="dni"
                             class="form-control"
-                            value="<?= htmlspecialchars($alumno['dni']) ?>"
+                            maxlength="15"
                             required>
 
                     </div>
@@ -148,15 +160,16 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-user"></i>
                             Nombres
+
                         </label>
 
                         <input
                             type="text"
                             name="nombres"
                             class="form-control"
-                            value="<?= htmlspecialchars($alumno['nombres']) ?>"
                             required>
 
                     </div>
@@ -165,48 +178,52 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-user-tag"></i>
                             Apellidos
+
                         </label>
 
                         <input
                             type="text"
                             name="apellidos"
                             class="form-control"
-                            value="<?= htmlspecialchars($alumno['apellidos']) ?>"
                             required>
 
                     </div>
 
-                    <!-- DIRECCIÓN -->
+                    <!-- DIRECCION -->
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-location-dot"></i>
                             Dirección
+
                         </label>
 
                         <input
                             type="text"
                             name="direccion"
-                            class="form-control"
-                            value="<?= htmlspecialchars($alumno['direccion']) ?>">
+                            class="form-control">
 
                     </div>
 
-                    <!-- TELÉFONO -->
+                    <!-- TELEFONO -->
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-phone"></i>
                             Teléfono
+
                         </label>
 
                         <input
                             type="text"
                             name="telefono"
                             class="form-control"
-                            value="<?= htmlspecialchars($alumno['telefono']) ?>">
+                            maxlength="15">
 
                     </div>
 
@@ -214,22 +231,27 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-graduation-cap"></i>
                             Carrera
+
                         </label>
 
-                        <select name="carrera_id" class="form-select" required>
+                        <select
+                            name="carrera_id"
+                            class="form-select"
+                            required>
 
                             <option value="">
                                 Seleccionar Carrera
                             </option>
 
-                            <?php foreach ($carreras as $carrera): ?>
+                            <?php foreach ($carreras as $c): ?>
 
-                                <option
-                                    value="<?= $carrera['idcarrera'] ?>"
-                                    <?= $alumno['idcarrera'] == $carrera['idcarrera'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($carrera['nombrecarrera']) ?>
+                                <option value="<?= $c['idcarrera'] ?>">
+
+                                    <?= htmlspecialchars($c['nombrecarrera']) ?>
+
                                 </option>
 
                             <?php endforeach; ?>
@@ -242,22 +264,27 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-book"></i>
                             Curso
+
                         </label>
 
-                        <select name="curso_id" class="form-select" required>
+                        <select
+                            name="curso_id"
+                            class="form-select"
+                            required>
 
                             <option value="">
                                 Seleccionar Curso
                             </option>
 
-                            <?php foreach ($cursos as $curso): ?>
+                            <?php foreach ($cursos as $c): ?>
 
-                                <option
-                                    value="<?= $curso['idcurso'] ?>"
-                                    <?= $alumno['idcurso'] == $curso['idcurso'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($curso['curso_label']) ?>
+                                <option value="<?= $c['idcurso'] ?>">
+
+                                    <?= htmlspecialchars($c['nombrecurso']) ?>
+
                                 </option>
 
                             <?php endforeach; ?>
@@ -270,22 +297,27 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
-                            <i class="fa-solid fa-calendar-days"></i>
+
+                            <i class="fa-solid fa-calendar"></i>
                             Ciclo
+
                         </label>
 
-                        <select name="ciclo_id" class="form-select" required>
+                        <select
+                            name="ciclo_id"
+                            class="form-select"
+                            required>
 
                             <option value="">
                                 Seleccionar Ciclo
                             </option>
 
-                            <?php foreach ($ciclos as $ciclo): ?>
+                            <?php foreach ($ciclos as $c): ?>
 
-                                <option
-                                    value="<?= $ciclo['idciclo'] ?>"
-                                    <?= $alumno['idciclo'] == $ciclo['idciclo'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($ciclo['nombreciclo']) ?>
+                                <option value="<?= $c['idciclo'] ?>">
+
+                                    <?= htmlspecialchars($c['nombreciclo']) ?>
+
                                 </option>
 
                             <?php endforeach; ?>
@@ -298,8 +330,10 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <div class="col-md-6">
 
                         <label class="form-label">
+
                             <i class="fa-solid fa-chart-line"></i>
                             Promedio
+
                         </label>
 
                         <input
@@ -309,7 +343,6 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                             step="0.01"
                             min="0"
                             max="20"
-                            value="<?= $alumno['promedio'] ?>"
                             required>
 
                     </div>
@@ -317,14 +350,22 @@ $ciclos = $pdo->query("SELECT * FROM view_combo_ciclos")->fetchAll();
                     <!-- BOTONES -->
                     <div class="col-12 text-center mt-4">
 
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
                             <i class="fa-solid fa-floppy-disk"></i>
-                            Actualizar
+                            Guardar
+
                         </button>
 
-                        <a href="index.php" class="btn btn-secondary">
+                        <a
+                            href="index.php"
+                            class="btn btn-secondary">
+
                             <i class="fa-solid fa-arrow-left"></i>
                             Cancelar
+
                         </a>
 
                     </div>
