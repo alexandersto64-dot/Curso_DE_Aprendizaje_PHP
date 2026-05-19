@@ -1,7 +1,6 @@
+<?php
 #Contador regresivo
-
-<?php 
-for ($i =20; $i >=1; $i--){
+for ($i = 20; $i >= 1; $i--) {
     echo "$i\n";
 }
 ?>
@@ -17,4 +16,3 @@ if ($usuario == "admin" && $password == "1234") {
 } else {
     echo "Usuario o contraseña incorrecto";
 }
-

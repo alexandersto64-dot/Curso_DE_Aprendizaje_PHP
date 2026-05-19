@@ -1,86 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
     <title>Tabla de Ventas</title>
 </head>
-<body>
-    
-    <h2>Tabla de Ventas</h2>
-    <table border="1">
-        <tr>
-            <th>Nº Venta</th>
-            <th>Cliente</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-            <th>Total</th>
-            <th>Fecha</th>
-        </tr>
-        <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
-        </tr>
-                <tr>
-            <td>001</td>
-            <td>Mario</td>
-            <td>Silla</td>
-            <td>5</td>
-            <td> S/ 15</td>
-            <td> S/ 75</td>
-            <td>18/05/2026</td>
+<body class="bg-light">
 
-    </table>
+    <div class="container mt-5">
+
+        <h2 class="text-center mb-4">
+            <i class="bi bi-cart-check-fill"></i>
+            Tabla de Ventas
+        </h2>
+
+        <table class="table table-bordered table-hover table-striped text-center align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Nº Venta</th>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>001</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Silla</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            5
+                        </span>
+                    </td>
+                    <td>S/ 15</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 75
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>002</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Mesa</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            3
+                        </span>
+                    </td>
+                    <td>S/ 40</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 120
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>003</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Escritorio</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            2
+                        </span>
+                    </td>
+                    <td>S/ 150</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 300
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>004</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Lámpara</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            4
+                        </span>
+                    </td>
+                    <td>S/ 25</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 100
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>005</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Armario</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            1
+                        </span>
+                    </td>
+                    <td>S/ 500</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 500
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>006</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Sofá</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            2
+                        </span>
+                    </td>
+                    <td>S/ 700</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 1400
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+                <tr>
+                    <td>007</td>
+                    <td>
+                        <i class="bi bi-person-fill"></i>
+                        Mario
+                    </td>
+                    <td>Estante</td>
+                    <td>
+                        <span class="badge bg-primary">
+                            6
+                        </span>
+                    </td>
+                    <td>S/ 80</td>
+                    <td>
+                        <span class="badge bg-success">
+                            S/ 480
+                        </span>
+                    </td>
+                    <td>18/05/2026</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </body>
 </html>
