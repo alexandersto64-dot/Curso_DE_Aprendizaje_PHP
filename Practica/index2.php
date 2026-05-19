@@ -13,4 +13,16 @@ if ($num1 >$num2 && $num1 > $num3){
 } else {
     echo "Los numeros son iguales";
 }
- 
+?>
+#Cajero automático
+<?php
+$saldo = 100;
+$retiro = readline("Ingrese saldo a retirar: ");
+
+if ($saldo <=$retiro){
+    echo "Saldo insufiente" . "\n";
+} elseif ($saldo >=$retiro){
+    echo "Retiro exitoso" . "\n";
+} else {
+    echo "Error". "\n";
+}

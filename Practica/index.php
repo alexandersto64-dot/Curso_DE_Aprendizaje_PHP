@@ -20,3 +20,23 @@ if ($promedio >=11){
 } else {
     echo "Esta desaprobado";
 }
+?>
+#Sistema de pensiones
+<?php
+    $nombre = "Juan";
+    $carrera = "Ingenieria de Software";
+    $pension = 500;
+    $descuentoA = 0.15;
+    $descuentoB = 0.05;
+
+    if ($pension > 800 ){
+        $descuento = $pension * $descuentoA; 
+    } else {
+        $descuento = $pension * $descuentoB;
+    }
+    $total = $pension - $descuento;
+
+    echo "---Resultado---" . "\n";
+    echo "El descuento es de: S/ " . $descuento ."\n";
+    echo "El total final es de: S/ " . $total . "\n" 
+?>

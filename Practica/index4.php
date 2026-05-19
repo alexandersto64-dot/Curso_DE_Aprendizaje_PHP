@@ -9,3 +9,10 @@ for ($i = 1; $i <=100; $i++){
     }
 }
 echo "La suma de los numeros pares es de: " . $suma;
+?>
+#Registro de empleados
+<?php
+$empleados = array [
+    ["Juan","Ana"]
+]
+

@@ -25,3 +25,17 @@ foreach ($productos as $producto){
     echo "Cantidad:  $cantidad\n";
 }
 echo "Total inventario: ". $totalI;
+?>
+
+#Control de asistencia
+<?php
+for ($i =1; $i <=30; $i++){
+    if($i != 15){
+        echo "Falta registrar";
+    } elseif ($i != 7){
+        echo "Falta registar";
+    } else {
+        echo "Error";
+    }
+}
+echo "Dias asistidos: " . $i;

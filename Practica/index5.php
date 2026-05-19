@@ -17,4 +17,20 @@ $total = $num1 - $resultado;
 echo "Precio: S/ ". $num1 . "\n";
 echo "Descuento: S/ ". $resultado . "\n";
 echo "Total a pagar : S/ ". $total . "\n";
+?>
+
+#Sistema de notas múltiples
+<?php
+$notas = array (15,16,17,18,19);
+$suma = array_sum($notas);
+
+$contar = count($notas);
+
+$promedio = $suma / $contar;
+
+echo "Suma total: " . $suma . "\n";
+echo "Contar total: " . $contar  . "\n";
+echo "Promedio final : " . $promedio  . "\n";
+
+
 
