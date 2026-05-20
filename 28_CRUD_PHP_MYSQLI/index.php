@@ -1,0 +1,382 @@
+<?php
+include "modelo/conexion.php";
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CRUD EN PHP Y MYSQL</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/9fe0e872ab.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #eef2f7, #d9e7ff);
+            min-height: 100vh;
+        }
+
+        .titulo {
+            font-weight: bold;
+            color: #0d6efd;
+            letter-spacing: 1px;
+        }
+
+        .card-form,
+        .card-table {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            background: #0d6efd;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .btn {
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        .table thead {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .table tbody tr {
+            transition: 0.3s;
+        }
+
+        .table tbody tr:hover {
+            background: #edf4ff;
+            transform: scale(1.01);
+        }
+
+        .btn-accion {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-accion span {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .btn-accion:hover span {
+            max-width: 100px;
+            opacity: 1;
+            margin-left: 5px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .table {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .icono {
+            margin-right: 6px;
+            color: #0d6efd;
+        }
+    </style>
+
+</head>
+<script>
+    function eliminar(){
+        var respuesta = confirm ("Desea eliminar?");
+        return respuesta
+    }
+</script>
+<body>
+
+    <div class="container py-4">
+
+        <!-- TITULO -->
+        <h1 class="text-center titulo mb-4">
+            <i class="fa-solid fa-database"></i>
+            CRUD EN PHP Y MYSQL
+        </h1>
+
+        <div class="row g-4">
+            <!-- MENSAJES -->
+<?php
+if (isset($_GET["mensaje"])) {
+
+    if ($_GET["mensaje"] == "registrado") {
+        echo '
+        <div class="alert alert-success alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-circle-check"></i>
+            Empleado registrado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
+
+    if ($_GET["mensaje"] == "eliminado") {
+        echo '
+        <div class="alert alert-danger alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-trash"></i>
+            Empleado eliminado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
+
+    if ($_GET["mensaje"] == "modificado") {
+        echo '
+        <div class="alert alert-warning alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-pen"></i>
+            Empleado modificado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
+}
+?>
+
+            <!-- FORMULARIO -->
+            <div class="col-lg-4">
+
+                <div class="card shadow-lg card-form">
+
+                    <div class="card-header-custom">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Registro de Personal
+                    </div>
+                    <!-- GUARDAR -->
+                    <?php
+                    include "controlador/guardar.php";
+                    ?>
+
+                    <div class="card-body p-4">
+
+                        <form action="" method="POST">
+
+                            <!-- DNI -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-id-card icono"></i>
+                                    DNI
+                                </label>
+
+                                <input type="number"
+                                    class="form-control"
+                                    name="dni"
+                                    required>
+
+                            </div>
+
+                            <!-- NOMBRES -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-user icono"></i>
+                                    Nombres
+                                </label>
+
+                                <input type="text"
+                                    class="form-control"
+                                    name="nombres"
+                                    required>
+
+                            </div>
+
+                            <!-- APELLIDOS -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-user-tag icono"></i>
+                                    Apellidos
+                                </label>
+
+                                <input type="text"
+                                    class="form-control"
+                                    name="apellidos"
+                                    required>
+
+                            </div>
+
+                            <!-- FECHA -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-calendar icono"></i>
+                                    Fecha Nacimiento
+                                </label>
+
+                                <input type="date"
+                                    class="form-control"
+                                    name="fechanacimiento"
+                                    required>
+
+                            </div>
+
+                            <!-- CORREO -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-envelope icono"></i>
+                                    Correo
+                                </label>
+
+                                <input type="email"
+                                    class="form-control"
+                                    name="correo"
+                                    required>
+
+                            </div>
+
+                            <!-- TELEFONO -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+                                    <i class="fa-solid fa-phone icono"></i>
+                                    Teléfono
+                                </label>
+
+                                <input type="number"
+                                    class="form-control"
+                                    name="telefono"
+                                    required>
+
+                            </div>
+
+                            <!-- BOTON -->
+                            <div class="d-grid">
+
+                                <button type="submit"
+                                    class="btn btn-primary btn-lg"
+                                    name="btnregistrar"
+                                    value="ok">
+
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Registrar
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TABLA -->
+            <div class="col-lg-8">
+
+                <div class="card shadow-lg card-table">
+
+                    <div class="card-header-custom">
+                        <i class="fa-solid fa-table"></i>
+                        Lista de Empleados
+                    </div>
+
+                    <div class="card-body table-responsive p-4">
+
+                        <table class="table table-hover align-middle text-center">
+
+                            <thead>
+
+                                <tr>
+                                    <th>ID</th>
+                                    <th>DNI</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Fecha Nac.</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <?php
+                                $sql = $conexion->query("SELECT * FROM empleado");
+
+                                while ($datos = $sql->fetch_object()) { ?>
+
+                                    <tr>
+
+                                        <td><?= $datos->id_persona ?></td>
+                                        <td><?= $datos->dni ?></td>
+                                        <td><?= $datos->nombres ?></td>
+                                        <td><?= $datos->apellidos ?></td>
+                                        <td><?= $datos->fecha_nac ?></td>
+                                        <td><?= $datos->correo ?></td>
+                                        <td><?= $datos->telefono ?></td>
+
+                                        <!-- ACCIONES -->
+                                        <td>
+
+                                            <a href="modificar_empleado.php?id=<?= $datos->id_persona ?>"
+                                            class="btn btn-warning btn-sm btn-accion text-white">
+
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                <span>Editar</span>
+
+                                            </a>
+
+                                            <a href="controlador/eliminar.php?id=<?= $datos->id_persona ?>"
+                                                class="btn btn-danger btn-sm btn-accion"
+                                                onclick="return confirm('¿Seguro que deseas eliminar este registro?')">
+
+                                                <i class="fa-solid fa-trash"></i>
+                                                <span>Eliminar</span>
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                <?php } ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
