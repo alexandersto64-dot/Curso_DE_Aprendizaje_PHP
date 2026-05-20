@@ -57,7 +57,7 @@ $productos = $pdo->query("
             </div>
 
             <!-- TABLA -->
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" style="width: 100%;">
 
                 <thead class="table-dark">
 
@@ -66,7 +66,7 @@ $productos = $pdo->query("
                         <th>
 
                             <i class="fa-solid fa-hashtag"></i>
-                            
+
 
                         </th>
 

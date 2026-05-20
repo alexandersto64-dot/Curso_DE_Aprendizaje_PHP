@@ -44,7 +44,7 @@ $empleados = $pdo->query("SELECT * FROM view_empleados")->fetchAll();
             </div>
 
             <!-- TABLA -->
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" style="width: 100%;">
 
                 <thead class="table-dark">
 
@@ -52,7 +52,7 @@ $empleados = $pdo->query("SELECT * FROM view_empleados")->fetchAll();
 
                         <th>
                             <i class="fa-solid fa-hashtag"></i>
-                            
+
                         </th>
 
                         <th>
