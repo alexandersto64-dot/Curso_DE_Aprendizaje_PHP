@@ -1,3 +1,4 @@
+
 <?php
 include "modelo/conexion.php";
 ?>
@@ -65,6 +66,27 @@ include "modelo/conexion.php";
 
         .table tbody tr:hover {
             background: #edf4ff;
+            transform: scale(1.01);
+        }
+
+        .btn-accion {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-accion span {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .btn-accion:hover span {
+            max-width: 100px;
+            opacity: 1;
+            margin-left: 5px;
         }
 
         .form-control {
@@ -83,14 +105,12 @@ include "modelo/conexion.php";
     </style>
 
 </head>
-
 <script>
-    function eliminar() {
-        var respuesta = confirm("Desea eliminar?");
+    function eliminar(){
+        var respuesta = confirm ("Desea eliminar?");
         return respuesta
     }
 </script>
-
 <body>
 
     <div class="container py-4">
@@ -102,42 +122,41 @@ include "modelo/conexion.php";
         </h1>
 
         <div class="row g-4">
-
             <!-- MENSAJES -->
-            <?php
-            if (isset($_GET["mensaje"])) {
+<?php
+if (isset($_GET["mensaje"])) {
 
-                if ($_GET["mensaje"] == "registrado") {
-                    echo '
-                    <div class="alert alert-success alert-dismissible fade show text-center shadow" role="alert">
-                        <i class="fa-solid fa-circle-check"></i>
-                        Empleado registrado correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    ';
-                }
+    if ($_GET["mensaje"] == "registrado") {
+        echo '
+        <div class="alert alert-success alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-circle-check"></i>
+            Empleado registrado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
 
-                if ($_GET["mensaje"] == "eliminado") {
-                    echo '
-                    <div class="alert alert-danger alert-dismissible fade show text-center shadow" role="alert">
-                        <i class="fa-solid fa-trash"></i>
-                        Empleado eliminado correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    ';
-                }
+    if ($_GET["mensaje"] == "eliminado") {
+        echo '
+        <div class="alert alert-danger alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-trash"></i>
+            Empleado eliminado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
 
-                if ($_GET["mensaje"] == "modificado") {
-                    echo '
-                    <div class="alert alert-warning alert-dismissible fade show text-center shadow" role="alert">
-                        <i class="fa-solid fa-pen"></i>
-                        Empleado modificado correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    ';
-                }
-            }
-            ?>
+    if ($_GET["mensaje"] == "modificado") {
+        echo '
+        <div class="alert alert-warning alert-dismissible fade show text-center shadow" role="alert">
+            <i class="fa-solid fa-pen"></i>
+            Empleado modificado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        ';
+    }
+}
+?>
 
             <!-- FORMULARIO -->
             <div class="col-lg-4">
@@ -148,7 +167,6 @@ include "modelo/conexion.php";
                         <i class="fa-solid fa-user-plus"></i>
                         Registro de Personal
                     </div>
-
                     <!-- GUARDAR -->
                     <?php
                     include "controlador/guardar.php";
@@ -321,17 +339,19 @@ include "modelo/conexion.php";
                                         <td>
 
                                             <a href="modificar_empleado.php?id=<?= $datos->id_persona ?>"
-                                                class="btn btn-warning btn-sm text-white">
+                                            class="btn btn-warning btn-sm btn-accion text-white">
 
                                                 <i class="fa-solid fa-pen-to-square"></i>
+                                                <span>Editar</span>
 
                                             </a>
 
                                             <a href="controlador/eliminar.php?id=<?= $datos->id_persona ?>"
-                                                class="btn btn-danger btn-sm"
+                                                class="btn btn-danger btn-sm btn-accion"
                                                 onclick="return confirm('¿Seguro que deseas eliminar este registro?')">
 
                                                 <i class="fa-solid fa-trash"></i>
+                                                <span>Eliminar</span>
 
                                             </a>
 
