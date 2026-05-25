@@ -23,6 +23,139 @@ try {
 
     die("Error de conexión: " . $e->getMessage());
 }
+
+/* =========================================
+   GUARDAR EMPLEADO
+========================================= */
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // Obtener datos
+    $dni = trim($_POST['dni']);
+    $telefono = trim($_POST['telefono']);
+    $nombres = trim($_POST['nombres']);
+    $apellidos = trim($_POST['apellidos']);
+    $direccion = trim($_POST['direccion']);
+    $cargo_id = trim($_POST['cargo_id']);
+
+    // Validar campos vacíos
+    if (
+        empty($dni) ||
+        empty($telefono) ||
+        empty($nombres) ||
+        empty($apellidos) ||
+        empty($direccion) ||
+        empty($cargo_id)
+    ) {
+
+        echo "
+        <script>
+            alert('Complete todos los campos');
+            window.location='';
+        </script>
+        ";
+    } else {
+
+        // Verificar DNI duplicado
+        $verificar = $conn->prepare("SELECT * FROM empleado WHERE dni = ?");
+        $verificar->execute([$dni]);
+
+        if ($verificar->rowCount() > 0) {
+
+            echo "
+            <script>
+                alert('El DNI ya existe');
+                window.location='';
+            </script>
+            ";
+        } else {
+
+            // Insertar empleado
+            $sql = "INSERT INTO empleado
+            (dni, nombres, apellidos, direccion, telefono, cargo_id)
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($sql);
+
+            $resultado = $stmt->execute([
+                $dni,
+                $nombres,
+                $apellidos,
+                $direccion,
+                $telefono,
+                $cargo_id
+            ]);
+
+            if ($resultado) {
+
+                echo "
+                <script>
+                    alert('Empleado registrado correctamente');
+                    window.location='';
+                </script>
+                ";
+            } else {
+
+                echo "
+                <script>
+                    alert('Error al registrar empleado');
+                </script>
+                ";
+            }
+        }
+    }
+}
+/* =========================================
+   ACTUALIZAR EMPLEADO
+========================================= */
+
+if (isset($_POST['btnActualizar'])) {
+
+    $id = trim($_POST['edit_id']);
+    $dni = trim($_POST['edit_dni']);
+    $telefono = trim($_POST['edit_telefono']);
+    $nombres = trim($_POST['edit_nombres']);
+    $apellidos = trim($_POST['edit_apellidos']);
+    $direccion = trim($_POST['edit_direccion']);
+    $cargo = trim($_POST['edit_cargo']);
+
+    $sql = "UPDATE empleado 
+            SET dni = ?, 
+                nombres = ?, 
+                apellidos = ?, 
+                direccion = ?, 
+                telefono = ?, 
+                cargo_id = ?
+            WHERE idempleado = ?";
+
+    $stmt = $conn->prepare($sql);
+
+    $resultado = $stmt->execute([
+        $dni,
+        $nombres,
+        $apellidos,
+        $direccion,
+        $telefono,
+        $cargo,
+        $id
+    ]);
+
+    if ($resultado) {
+
+        echo "
+        <script>
+            alert('Empleado actualizado correctamente');
+            window.location='';
+        </script>
+        ";
+    } else {
+
+        echo "
+        <script>
+            alert('Error al actualizar');
+        </script>
+        ";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -125,8 +258,23 @@ try {
 
                                 <div class='d-flex justify-content-center gap-2'>
 
-                                    <button class='btn btn-warning btn-sm'>
+                                    <button 
+                                        class='btn btn-warning btn-sm btnEditar'
+
+                                        data-bs-toggle='modal'
+                                        data-bs-target='#modalEditar'
+
+                                        data-id='{$fila['idempleado']}'
+                                        data-dni='{$fila['dni']}'
+                                        data-nombres='{$fila['nombres']}'
+                                        data-apellidos='{$fila['apellidos']}'
+                                        data-direccion='{$fila['direccion']}'
+                                        data-telefono='{$fila['telefono']}'
+                                        data-cargo='{$fila['cargo_id']}'
+                                    >
+
                                         <i class='fa-solid fa-pen-to-square'></i>
+
                                     </button>
 
                                     <button class='btn btn-danger btn-sm'>
@@ -200,35 +348,35 @@ try {
                                 <input type="text"
                                     name="dni"
                                     class="form-control"
-                                    placeholder="Ingrese DNI" require>
+                                    placeholder="Ingrese DNI" required>
 
                             </div>
 
                             <div class="col-md-6">
 
                                 <label class="form-label">
-                                    <i class="fa-solid fa-phone text-success" require></i>
+                                    <i class="fa-solid fa-phone text-success" required></i>
                                     Teléfono
                                 </label>
 
                                 <input type="text"
                                     name="telefono"
                                     class="form-control"
-                                    placeholder="Ingrese teléfono" require>
+                                    placeholder="Ingrese teléfono" required>
 
                             </div>
 
                             <div class="col-md-6">
 
                                 <label class="form-label">
-                                    <i class="fa-solid fa-user text-info" require></i>
+                                    <i class="fa-solid fa-user text-info" required></i>
                                     Nombres
                                 </label>
 
                                 <input type="text"
                                     name="nombres"
                                     class="form-control"
-                                    placeholder="Ingrese nombres" require>
+                                    placeholder="Ingrese nombres" required>
 
                             </div>
 
@@ -242,7 +390,7 @@ try {
                                 <input type="text"
                                     name="apellidos"
                                     class="form-control"
-                                    placeholder="Ingrese apellidos" require>
+                                    placeholder="Ingrese apellidos" required>
 
                             </div>
 
@@ -256,7 +404,7 @@ try {
                                 <input type="text"
                                     name="direccion"
                                     class="form-control"
-                                    placeholder="Ingrese dirección" require>
+                                    placeholder="Ingrese dirección" required>
 
                             </div>
 
@@ -267,7 +415,7 @@ try {
                                     Cargo
                                 </label>
 
-                                <select name="cargo_id" class="form-select">
+                                <select name="cargo_id" class="form-select" required>
 
                                     <option value="">Seleccione Cargo</option>
 
@@ -307,6 +455,173 @@ try {
 
                             <i class="fa-solid fa-floppy-disk"></i>
                             Guardar Empleado
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- MODAL EDITAR -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-warning">
+
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Editar Empleado
+                    </h5>
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <form action="" method="POST">
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="edit_id" id="edit_id">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-id-card text-primary"></i>
+                                    DNI
+                                </label>
+
+                                <input type="text"
+                                    name="edit_dni"
+                                    id="edit_dni"
+                                    class="form-control"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-phone text-success"></i>
+                                    Teléfono
+                                </label>
+
+                                <input type="text"
+                                    name="edit_telefono"
+                                    id="edit_telefono"
+                                    class="form-control"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-user text-info"></i>
+                                    Nombres
+                                </label>
+
+                                <input type="text"
+                                    name="edit_nombres"
+                                    id="edit_nombres"
+                                    class="form-control"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-user-tag text-warning"></i>
+                                    Apellidos
+                                </label>
+
+                                <input type="text"
+                                    name="edit_apellidos"
+                                    id="edit_apellidos"
+                                    class="form-control"
+                                    required>
+
+                            </div>
+
+                            <div class="col-12">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-location-dot text-danger"></i>
+                                    Dirección
+                                </label>
+
+                                <input type="text"
+                                    name="edit_direccion"
+                                    id="edit_direccion"
+                                    class="form-control"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    <i class="fa-solid fa-briefcase text-secondary"></i>
+                                    Cargo
+                                </label>
+
+                                <select name="edit_cargo"
+                                    id="edit_cargo"
+                                    class="form-select"
+                                    required>
+
+                                    <option value="">Seleccione Cargo</option>
+
+                                    <?php
+                                    $cargo = $conn->query("SELECT * FROM cargo");
+
+                                    while ($row = $cargo->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "
+                                    <option value='{$row['id']}'>
+                                        {$row['nombrecargo']}
+                                    </option>
+                                    ";
+                                    }
+                                    ?>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            <i class="fa-solid fa-xmark"></i>
+                            Cerrar
+
+                        </button>
+
+                        <button type="submit"
+                            name="btnActualizar"
+                            class="btn btn-warning">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Actualizar
 
                         </button>
 

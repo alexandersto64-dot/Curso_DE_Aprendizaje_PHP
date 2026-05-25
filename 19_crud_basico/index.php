@@ -26,45 +26,21 @@ $empleados = $stmt_empleado->fetchAll();
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- DataTables -->
+    <link href="https://cdn.datatables.net/2.3.8/css/dataTables.bootstrap5.css" rel="stylesheet">
+
+    <!-- Responsive -->
+    <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.bootstrap5.css" rel="stylesheet">
+
+    <!-- Buttons -->
+    <link href="https://cdn.datatables.net/buttons/3.2.0/css/buttons.bootstrap5.css" rel="stylesheet">
+
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #dfe9f3, #ffffff);
-            min-height: 100vh;
-        }
-
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .titulo {
-            font-weight: bold;
-            color: #0d6efd;
-        }
-
-        .table thead {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .btn {
-            border-radius: 10px;
-        }
-
-        .form-control,
-        .form-select {
-            border-radius: 10px;
-        }
-
-        .table-hover tbody tr:hover {
-            background-color: #f1f5ff;
-            transition: 0.3s;
-        }
-    </style>
+    <!-- CSS PERSONALIZADO -->
+    <link rel="stylesheet" href="estilo.css">
 </head>
 
 <body>
@@ -209,7 +185,7 @@ $empleados = $stmt_empleado->fetchAll();
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-hover align-middle text-center">
+                <table id="example" class="table table-bordered table-hover align-middle text-center">
 
                     <thead>
                         <tr>
@@ -284,9 +260,42 @@ $empleados = $stmt_empleado->fetchAll();
 
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
+
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.bootstrap5.js"></script>
+
+    <!-- Responsive -->
+    <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+
+    <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.bootstrap5.js"></script>
+
+    <!-- Buttons -->
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/dataTables.buttons.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.bootstrap5.js"></script>
+
+    <!-- Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.html5.min.js"></script>
+
+    <!-- PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <!-- Print -->
+    <script src="https://cdn.datatables.net/buttons/3.2.0/js/buttons.print.min.js"></script>
+
+    <!-- JS PERSONALIZADO -->
+    <script src="java.js"></script>
 </body>
 
 </html>

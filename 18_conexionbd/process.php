@@ -11,9 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $telefono = trim($_POST['telefono']);
     $cargo_id = trim($_POST['cargo_id']);
 
-    // =========================
     // VALIDAR CAMPOS VACÍOS
-    // =========================
     if (
         empty($dni) ||
         empty($nombres) ||
@@ -33,9 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // =========================
     // VALIDAR DNI
-    // =========================
     if (!preg_match('/^[0-9]{8}$/', $dni)) {
 
         echo "
@@ -48,9 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // =========================
     // VALIDAR TELÉFONO
-    // =========================
     if (!preg_match('/^[0-9]{9}$/', $telefono)) {
 
         echo "
@@ -63,10 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // =========================
     // VALIDAR DNI DUPLICADO
-    // =========================
-    $verificar = $pdo->prepare("
+    $verificar = $conn->prepare("
         SELECT * FROM empleado 
         WHERE dni = ?
     ");
@@ -85,10 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // =========================
     // INSERTAR EMPLEADO
-    // =========================
-    $stmt = $pdo->prepare("
+    $stmt = $conn->prepare("
         INSERT INTO empleado 
         (dni, nombres, apellidos, direccion, telefono, cargo_id)
         VALUES (?, ?, ?, ?, ?, ?)
@@ -103,9 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $cargo_id
     ]);
 
-    // =========================
     // MENSAJES
-    // =========================
     if ($resultado) {
 
         echo "

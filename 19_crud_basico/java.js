@@ -56,17 +56,4 @@ $(document).ready(function () {
 
     });
 
-    // BOTON EDITAR
-    $('.btnEditar').click(function () {
-
-        $('#edit_id').val($(this).data('id'));
-        $('#edit_dni').val($(this).data('dni'));
-        $('#edit_nombres').val($(this).data('nombres'));
-        $('#edit_apellidos').val($(this).data('apellidos'));
-        $('#edit_direccion').val($(this).data('direccion'));
-        $('#edit_telefono').val($(this).data('telefono'));
-        $('#edit_cargo').val($(this).data('cargo'));
-
-    });
-
 });
