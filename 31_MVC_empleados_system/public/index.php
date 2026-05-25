@@ -2,29 +2,34 @@
 session_start();
 require_once '../config/database.php';
 
-// Autoload controllers
-spl_autoload_register(function($class){
+// ── Base URL dinámica (funciona en cualquier subcarpeta) ──────────────────────
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host     = $_SERVER['HTTP_HOST'];
+$script   = dirname($_SERVER['SCRIPT_NAME']); // ej: /miProyectoMVC/public
+define('BASE_URL', $protocol . '://' . $host . rtrim($script, '/'));
+
+// Autoload controllers y models
+spl_autoload_register(function ($class) {
     $paths = ['../app/controllers/', '../app/models/'];
-    foreach($paths as $path){
+    foreach ($paths as $path) {
         $file = $path . $class . '.php';
-        if(file_exists($file)){
+        if (file_exists($file)) {
             require_once $file;
             return;
         }
     }
 });
 
-// Obtener controlador y acción desde query params
+// Router
 $controller = $_GET['controller'] ?? 'user';
-$action = $_GET['action'] ?? 'login';
+$action     = $_GET['action']     ?? 'login';
 
-// Formatear nombres de clases y métodos
 $controllerName = ucfirst($controller) . 'Controller';
 
-if(class_exists($controllerName)){
-    $controllerObject = new $controllerName();
-    if(method_exists($controllerObject, $action)){
-        $controllerObject->$action();
+if (class_exists($controllerName)) {
+    $obj = new $controllerName();
+    if (method_exists($obj, $action)) {
+        $obj->$action();
     } else {
         echo "Acción no encontrada.";
     }
