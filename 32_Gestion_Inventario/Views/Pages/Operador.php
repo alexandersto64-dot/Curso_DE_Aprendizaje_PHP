@@ -1,61 +1,103 @@
 <?php
+require_once __DIR__ . '/../../Models/Conexion.php';
 
-require_once "Models/Conexion.php";
+$errors = [];
+$success = false;
+$id_operador = $nombre_operador = '';
 
-$stmt = Conexion::conectar()->prepare("SELECT * FROM operador");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$stmt->execute();
+    $id_operador     = trim($_POST['id_operador'] ?? '');
+    $nombre_operador = trim($_POST['nombre_operador'] ?? '');
 
-$operadores = $stmt->fetchAll();
+    if ($id_operador === '') {
+        $errors['id_operador'] = 'Por favor ingrese el ID del operador.';
+    } elseif (strlen($id_operador) > 5) {
+        $errors['id_operador'] = 'El ID no puede tener más de 5 caracteres.';
+    }
 
+    if ($nombre_operador === '') {
+        $errors['nombre_operador'] = 'Por favor ingrese el nombre del operador.';
+    }
+
+    if (empty($errors)) {
+        $pdo  = Conexion::conectar();
+        $stmt = $pdo->prepare("INSERT INTO operador (id_operador, nombre_operador) VALUES (?, ?)");
+        $stmt->execute([$id_operador, $nombre_operador]);
+        $success = true;
+        $id_operador = $nombre_operador = '';
+    }
+}
 ?>
 
 <section class="content">
 
-    <div class="box">
+    <div class="box box-warning">
 
-        <div class="box-header with-border">
-
-            <button class="btn btn-primary">
-                Agregar Operador
-            </button>
-
+        <div class="box-header with-border bg-yellow">
+            <h3 class="box-title text-black">
+                <i class="fa fa-phone-square"></i>
+                Nuevo Operador
+            </h3>
         </div>
 
-        <div class="box-body">
+        <?php if ($success): ?>
+            <div class="alert alert-success alert-dismissible margin" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <i class="fa fa-check-circle"></i>
+                <strong>¡Éxito!</strong> El operador fue registrado correctamente.
+            </div>
+        <?php endif; ?>
 
-            <table class="table table-bordered table-striped tablaData">
-                <thead>
+        <form method="POST">
 
-                    <tr>
-                        <th>ID</th>
-                        <th>Operador</th>
-                        <th>Fecha Registro</th>
-                    </tr>
+            <div class="box-body">
 
-                </thead>
+                <div class="form-group <?= isset($errors['id_operador']) ? 'has-error' : '' ?>">
+                    <label><i class="fa fa-key"></i> ID Operador</label>
+                    <input type="text"
+                        class="form-control input-lg"
+                        name="id_operador"
+                        placeholder="Ejemplo: OP001"
+                        maxlength="5"
+                        value="<?= htmlspecialchars($id_operador) ?>">
+                    <?php if (isset($errors['id_operador'])): ?>
+                        <span class="help-block">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <?= $errors['id_operador'] ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
 
-                <tbody>
+                <div class="form-group <?= isset($errors['nombre_operador']) ? 'has-error' : '' ?>">
+                    <label><i class="fa fa-phone"></i> Nombre Operador</label>
+                    <input type="text"
+                        class="form-control input-lg"
+                        name="nombre_operador"
+                        placeholder="Ingrese operador"
+                        value="<?= htmlspecialchars($nombre_operador) ?>">
+                    <?php if (isset($errors['nombre_operador'])): ?>
+                        <span class="help-block">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <?= $errors['nombre_operador'] ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
 
-                    <?php foreach ($operadores as $key => $value): ?>
+            </div>
 
-                        <tr>
+            <div class="box-footer text-right">
+                <a href="index.php?page=Listar_Operador" class="btn btn-default btn-lg">
+                    <i class="fa fa-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-warning btn-lg">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
 
-                            <td><?php echo $value["id_operador"]; ?></td>
-
-                            <td><?php echo $value["nombre_operador"]; ?></td>
-
-                            <td><?php echo $value["fecha_registro"]; ?></td>
-
-                        </tr>
-
-                    <?php endforeach ?>
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </form>
 
     </div>
 

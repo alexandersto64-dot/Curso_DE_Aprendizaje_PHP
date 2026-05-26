@@ -2,13 +2,30 @@
 <html>
 
 <head>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Gestión de Inventario</title>
-  <!-- Tell the browser to be responsive to screen width -->
+
+  <title>Sistema Agenda 2026</title>
+
+  <!-- Responsive -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
+
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="Views/Resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="Views/Resources/bower_components/font-awesome/css/font-awesome.min.css">
+
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="Views/Resources/bower_components/Ionicons/css/ionicons.min.css">
+
+  <!-- AdminLTE -->
+  <link rel="stylesheet" href="Views/Resources/dist/css/AdminLTE.min.css">
+
+  <!-- Skins -->
+  <link rel="stylesheet" href="Views/Resources/dist/css/skins/_all-skins.min.css">
+
   <!-- DataTables -->
   <link rel="stylesheet"
     href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap.min.css">
@@ -18,201 +35,284 @@
 
   <link rel="stylesheet"
     href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="Views/Resources/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="Views/Resources/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="Views/Resources/dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="Views/Resources/dist/css/skins/_all-skins.min.css">
+
+  <!-- CSS PERSONALIZADO -->
   <link rel="stylesheet" href="Views/Resources/custom.css">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700">
+
+  <style>
+
+    .user-menu .dropdown-menu{
+      right: 0;
+      left: auto;
+    }
+
+  </style>
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-  <!-- Site wrapper -->
-  <div class="wrapper">
 
+<div class="wrapper">
 
-    <!-- =====================HEADER========================== -->
+  <!-- HEADER -->
+  <?php include "Modules/Header.php"; ?>
+
+  <!-- MENU -->
+  <?php include "Modules/Menu.php"; ?>
+
+  <!-- CONTENIDO -->
+  <div class="content-wrapper">
+
     <?php
-    include "Modules/Header.php";
-    ?>
 
-    <!-- =====================MENU========================== -->
-    <?php
-    include "Modules/Menu.php";
-    ?>
+    $paginas = [
 
-    <!-- =============================================== -->
+      "Inicio",
 
-    <div class="content-wrapper">
+      "Operador",
+      "Empresa",
+      "Grupo",
+      "Contacto",
 
-      <?php
+      "Listar_Operador",
+      "Listar_Empresa",
+      "Listar_Grupo",
+      "Listar_Contacto"
 
-      if (isset($_GET["Pages"])) {
+    ];
 
-        if (
+    if (isset($_GET["Pages"])) {
 
-          $_GET["Pages"] == "Operador" ||
-          $_GET["Pages"] == "Empresa" ||
-          $_GET["Pages"] == "Contacto" ||
-          $_GET["Pages"] == "Grupo" ||
+      $pagina = $_GET["Pages"];
 
-          $_GET["Pages"] == "Listar_Operador" ||
-          $_GET["Pages"] == "Listar_Empresa" ||
-          $_GET["Pages"] == "Listar_Contacto" ||
-          $_GET["Pages"] == "Listar_Grupo"
+      if (in_array($pagina, $paginas)) {
 
-        ) {
+        include "Pages/" . $pagina . ".php";
 
-          include "Pages/" . $_GET["Pages"] . ".php";
-        } else {
-
-          echo "<h1>Pagina no encontrada</h1>";
-        }
       } else {
 
-        include "Pages/Operador.php";
+        echo '
+
+        <section class="content">
+
+          <div class="error-page">
+
+            <h2 class="headline text-red">404</h2>
+
+            <div class="error-content">
+
+              <h3>
+                <i class="fa fa-warning text-red"></i>
+                Página no encontrada
+              </h3>
+
+              <p>
+                La página que intenta acceder no existe.
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        ';
+
       }
 
-      ?>
+    } else {
 
-    </div>
+      include "Pages/Inicio.php";
 
-    <!-- FOOTER -->
-    <?php
-    include "Modules/Footer.php";
+    }
+
     ?>
 
+  </div>
 
-    <!-- jQuery 3 -->
-    <script src="Views/Resources/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="Views/Resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="Views/Resources/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="Views/Resources/bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="Views/Resources/dist/js/adminlte.min.js"></script>
+  <!-- FOOTER -->
+  <?php include "Modules/Footer.php"; ?>
 
-    <!-- AdminLTE for demo purposes -->
-    <script src="Views/Resources/dist/js/demo.js"></script>
-    <script>
-      $(document).ready(function() {
-        $('.sidebar-menu').tree();
-      });
-    </script>
+</div>
 
-    <!-- DataTables -->
-    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap.min.js"></script>
+<!-- ===================== SCRIPTS ===================== -->
 
-    <!-- Responsive -->
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<!-- jQuery -->
+<script src="Views/Resources/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap.min.js"></script>
+<!-- Bootstrap -->
+<script src="Views/Resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- Buttons -->
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<!-- SlimScroll -->
+<script src="Views/Resources/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="Views/Resources/bower_components/fastclick/lib/fastclick.js"></script>
 
-    <!-- Excel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- AdminLTE -->
+<script src="Views/Resources/dist/js/adminlte.min.js"></script>
 
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<!-- Demo -->
+<script src="Views/Resources/dist/js/demo.js"></script>
 
-    <!-- PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap.min.js"></script>
 
-    <!-- Print -->
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script>
-      $(document).ready(function() {
+<!-- Responsive -->
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
-        $('.tablaData').DataTable({
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap.min.js"></script>
 
-          responsive: true,
-          autoWidth: false,
+<!-- Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 
-          pageLength: 5,
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap.min.js"></script>
 
-          lengthMenu: [5, 10, 25, 50, 100],
+<!-- Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-          dom: 'Bfrtip',
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
-          buttons: [
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<!-- Print -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+<!-- ===================== CONFIGURACIONES ===================== -->
+
+<script>
+
+$(document).ready(function () {
+
+    // ACTIVAR SIDEBAR
+    $('.sidebar-menu').tree();
+
+    // DATATABLE
+    $('.tablaData').DataTable({
+
+        responsive: true,
+        autoWidth: false,
+
+        pageLength: 5,
+
+        lengthMenu: [5, 10, 25, 50, 100],
+
+        dom: 'Bfrtip',
+
+        buttons: [
 
             {
-              extend: 'excel',
-              text: '<i class="fa fa-file-excel-o"></i> Excel',
-              className: 'btn btn-success'
+                extend: 'excel',
+                text: '<i class="fa fa-file-excel-o"></i> Excel',
+                className: 'btn btn-success'
             },
 
             {
-              extend: 'csv',
-              text: '<i class="fa fa-file-text-o"></i> CSV',
-              className: 'btn btn-info'
+                extend: 'csv',
+                text: '<i class="fa fa-file-text-o"></i> CSV',
+                className: 'btn btn-info'
             },
 
             {
-              extend: 'pdf',
-              text: '<i class="fa fa-file-pdf-o"></i> PDF',
-              className: 'btn btn-danger'
+                extend: 'pdf',
+                text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                className: 'btn btn-danger'
             },
 
             {
-              extend: 'print',
-              text: '<i class="fa fa-print"></i> Imprimir',
-              className: 'btn btn-default'
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Imprimir',
+                className: 'btn btn-default'
             }
 
-          ],
+        ],
 
-          language: {
+        language: {
 
             decimal: "",
             emptyTable: "No hay información",
+
             info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+
             infoEmpty: "Mostrando 0 a 0 de 0 registros",
+
             infoFiltered: "(Filtrado de _MAX_ registros totales)",
+
             thousands: ",",
+
             lengthMenu: "Mostrar _MENU_ registros",
+
             loadingRecords: "Cargando...",
+
             processing: "Procesando...",
+
             search: "Buscar:",
+
             zeroRecords: "No se encontraron resultados",
+
             paginate: {
 
-              first: "Primero",
-              last: "Último",
-              next: "›",
-              previous: "‹"
+                first: "Primero",
+                last: "Último",
+                next: "›",
+                previous: "‹"
 
             }
 
-          }
+        }
 
-        });
+    });
 
-      });
-    </script>
-  </div>
+    // ===================== MODAL EDITAR =====================
+
+    $(document).on('click', '[data-target="#modalEditar"]', function () {
+
+        $('#edit_id').val($(this).attr('data-id'));
+
+        $('#edit_id_show').val($(this).attr('data-id'));
+
+        $('#edit_nombre').val($(this).attr('data-nombre'));
+
+        $('#edit_direccion').val($(this).attr('data-direccion'));
+
+        $('#edit_telefono').val($(this).attr('data-telefono'));
+
+        $('#edit_nombres').val($(this).attr('data-nombres'));
+
+        $('#edit_apellidos').val($(this).attr('data-apellidos'));
+
+        $('#edit_correo').val($(this).attr('data-correo'));
+
+        $('#edit_empresa').val($(this).attr('data-empresa'));
+
+        $('#edit_operador').val($(this).attr('data-operador'));
+
+        $('#edit_grupo').val($(this).attr('data-grupo'));
+
+    });
+
+    // ===================== MODAL ELIMINAR =====================
+
+    $(document).on('click', '[data-target="#modalEliminar"]', function () {
+
+        $('#del_id').val($(this).attr('data-id'));
+
+        $('#del_nombre').text($(this).attr('data-nombre'));
+
+    });
+
+});
+
+</script>
+
 </body>
-
 </html>

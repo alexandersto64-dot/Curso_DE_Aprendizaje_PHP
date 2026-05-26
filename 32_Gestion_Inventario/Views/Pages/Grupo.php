@@ -1,55 +1,106 @@
 <?php
+require_once __DIR__ . '/../../Models/Conexion.php';
 
-require_once "Models/Conexion.php";
+$errors = [];
+$success = false;
+$id_grupo = $nombre_grupo = '';
 
-$stmt = Conexion::conectar()->prepare("SELECT * FROM grupo_contacto");
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$stmt->execute();
+    $id_grupo     = trim($_POST['id_grupo'] ?? '');
+    $nombre_grupo = trim($_POST['nombre_grupo'] ?? '');
 
-$grupo = $stmt->fetchAll();
+    if ($id_grupo === '') {
+        $errors['id_grupo'] = 'Por favor ingrese el ID del grupo.';
+    } elseif (strlen($id_grupo) > 5) {
+        $errors['id_grupo'] = 'El ID no puede tener más de 5 caracteres.';
+    }
 
+    if ($nombre_grupo === '') {
+        $errors['nombre_grupo'] = 'Por favor ingrese el nombre del grupo.';
+    } elseif (strlen($nombre_grupo) > 60) {
+        $errors['nombre_grupo'] = 'El nombre no puede tener más de 60 caracteres.';
+    }
+
+    if (empty($errors)) {
+        $pdo  = Conexion::conectar();
+        $stmt = $pdo->prepare("INSERT INTO grupo_contacto (id_grupo, nombre_grupo) VALUES (?, ?)");
+        $stmt->execute([$id_grupo, $nombre_grupo]);
+        $success = true;
+        $id_grupo = $nombre_grupo = '';
+    }
+}
 ?>
 
 <section class="content">
 
-    <div class="box">
+    <div class="box box-primary">
 
         <div class="box-header with-border">
-
-            <button class="btn btn-danger">
-                Agregar Grupo
-            </button>
-
+            <h3 class="box-title">
+                <i class="fa fa-users"></i>
+                Nuevo Grupo de Contacto
+            </h3>
         </div>
 
-        <div class="box-body">
+        <?php if ($success): ?>
+            <div class="alert alert-success alert-dismissible margin" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <i class="fa fa-check-circle"></i>
+                <strong>¡Éxito!</strong> El grupo de contacto fue registrado correctamente.
+            </div>
+        <?php endif; ?>
 
-            <table class="table table-bordered table-striped tablaData">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Grupo</th>
-                        <th>Fecha Registro</th>
-                    </tr>
-                </thead>
+        <form method="POST">
 
-                <tbody>
+            <div class="box-body">
 
-                    <?php foreach ($grupo as $value): ?>
+                <div class="form-group <?= isset($errors['id_grupo']) ? 'has-error' : '' ?>">
+                    <label><i class="fa fa-key"></i> ID Grupo</label>
+                    <input type="text"
+                        class="form-control input-lg"
+                        name="id_grupo"
+                        placeholder="Ejemplo: GR001"
+                        maxlength="5"
+                        value="<?= htmlspecialchars($id_grupo) ?>">
+                    <?php if (isset($errors['id_grupo'])): ?>
+                        <span class="help-block">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <?= $errors['id_grupo'] ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
 
-                        <tr>
-                            <td><?php echo $value["id_grupo"]; ?></td>
-                            <td><?php echo $value["nombre_grupo"]; ?></td>
-                            <td><?php echo $value["fecha_registro"]; ?></td>
-                        </tr>
+                <div class="form-group <?= isset($errors['nombre_grupo']) ? 'has-error' : '' ?>">
+                    <label><i class="fa fa-tag"></i> Nombre Grupo</label>
+                    <input type="text"
+                        class="form-control input-lg"
+                        name="nombre_grupo"
+                        placeholder="Ingrese nombre del grupo"
+                        maxlength="60"
+                        value="<?= htmlspecialchars($nombre_grupo) ?>">
+                    <?php if (isset($errors['nombre_grupo'])): ?>
+                        <span class="help-block">
+                            <i class="fa fa-exclamation-circle"></i>
+                            <?= $errors['nombre_grupo'] ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
 
-                    <?php endforeach ?>
+            </div>
 
-                </tbody>
+            <div class="box-footer text-right">
+                <a href="index.php?page=Listar_Grupo" class="btn btn-default btn-lg">
+                    <i class="fa fa-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
 
-            </table>
-
-        </div>
+        </form>
 
     </div>
 
