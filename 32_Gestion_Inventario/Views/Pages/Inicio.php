@@ -346,47 +346,48 @@ $ultimos = $pdo->query("
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="recent-box" style="height:calc(100% - 20px);">
-                <div class="rb-header">
-                    <i class="fa fa-bolt"></i>
-                    <h4>Accesos Rápidos</h4>
-                </div>
-                <div style="padding:16px;">
-
-                    <a href="index.php?Pages=Contacto" class="btn btn-block btn-default"
-                        style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                        <i class="fa fa-user-plus" style="color:#f43f5e;width:22px;"></i>
-                        Nuevo Contacto
-                    </a>
-
-                    <a href="index.php?Pages=Empresa" class="btn btn-block btn-default"
-                        style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                        <i class="fa fa-building" style="color:#10b981;width:22px;"></i>
-                        Nueva Empresa
-                    </a>
-
-                    <a href="index.php?Pages=Operador" class="btn btn-block btn-default"
-                        style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                        <i class="fa fa-phone-square" style="color:#3b82f6;width:22px;"></i>
-                        Nuevo Operador
-                    </a>
-
-                    <a href="index.php?Pages=Grupo" class="btn btn-block btn-default"
-                        style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                        <i class="fa fa-users" style="color:#f59e0b;width:22px;"></i>
-                        Nuevo Grupo
-                    </a>
-
-                    <a href="index.php?Pages=Listar_Contacto" class="btn btn-block btn-default"
-                        style="text-align:left;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                        <i class="fa fa-list" style="color:#8b5cf6;width:22px;"></i>
-                        Ver Agenda Completa
-                    </a>
-
-                </div>
-            </div>
+<!-- ACCESOS RÁPIDOS -->
+<div class="col-md-4">
+    <div class="recent-box" style="height:calc(100% - 20px);">
+        <div class="rb-header">
+            ⚡
+            <h4>Accesos Rápidos</h4>
         </div>
+        <div style="padding:16px;">
+
+            <a href="index.php?Pages=Contacto" class="btn btn-block btn-default"
+                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
+                <span style="color:#f43f5e;margin-right:8px;font-size:16px;">👤</span>
+                Nuevo Contacto
+            </a>
+
+            <a href="index.php?Pages=Empresa" class="btn btn-block btn-default"
+                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
+                <span style="color:#10b981;margin-right:8px;font-size:16px;">🏢</span>
+                Nueva Empresa
+            </a>
+
+            <a href="index.php?Pages=Operador" class="btn btn-block btn-default"
+                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
+                <span style="color:#3b82f6;margin-right:8px;font-size:16px;">📱</span>
+                Nuevo Operador
+            </a>
+
+            <a href="index.php?Pages=Grupo" class="btn btn-block btn-default"
+                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
+                <span style="color:#f59e0b;margin-right:8px;font-size:16px;">👥</span>
+                Nuevo Grupo
+            </a>
+
+            <a href="index.php?Pages=Listar_Contacto" class="btn btn-block btn-default"
+                style="text-align:left;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
+                <span style="color:#8b5cf6;margin-right:8px;font-size:16px;">📋</span>
+                Ver Agenda Completa
+            </a>
+
+        </div>
+    </div>
+</div>
 
     </div>
 

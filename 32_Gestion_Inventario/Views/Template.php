@@ -16,6 +16,8 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="Views/Resources/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Font Awesome CDN (respaldo) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Ionicons -->
   <link rel="stylesheet" href="Views/Resources/bower_components/Ionicons/css/ionicons.min.css">
