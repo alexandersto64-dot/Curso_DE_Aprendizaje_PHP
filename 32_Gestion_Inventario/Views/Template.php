@@ -117,7 +117,9 @@ if(!isset($_SESSION["usuario"])){
       "Listar_Operador",
       "Listar_Empresa",
       "Listar_Grupo",
-      "Listar_Contacto"
+      "Listar_Contacto",
+
+      "Perfil"  
 
     ];
 
@@ -181,6 +183,70 @@ if(!isset($_SESSION["usuario"])){
 </div>
 
 <?php } ?>
+<div class="modal fade" id="modalPerfil" tabindex="-1" role="dialog">
+
+  <div class="modal-dialog modal-sm">
+
+    <div class="modal-content">
+
+      <?php
+      $foto = $_SESSION["foto"] ?? "Views/Images/Users/default.jpg";
+      $nombre = $_SESSION["nombre"] ?? "Usuario";
+      $usuario = $_SESSION["usuario"] ?? "";
+      $rol = $_SESSION["rol"] ?? "";
+      ?>
+
+      <!-- HEADER -->
+      <div class="modal-header bg-primary text-center">
+
+        <button type="button" class="close" data-dismiss="modal" style="color:white;">
+            &times;
+        </button>
+
+        <h4 class="modal-title">
+            <i class="fa fa-user-circle"></i> Perfil de Usuario
+        </h4>
+
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body text-center">
+
+        <img src="<?= $foto ?>"
+             class="img-circle"
+             style="width:90px; height:90px; object-fit:cover; border:3px solid #3c8dbc;">
+
+        <h4 style="margin-top:10px;">
+            <?= htmlspecialchars($nombre) ?>
+        </h4>
+
+        <p class="text-muted">
+            <?= htmlspecialchars($rol) ?>
+        </p>
+
+        <hr>
+
+        <p style="margin:0;">
+            <strong>Usuario:</strong><br>
+            <?= htmlspecialchars($usuario) ?>
+        </p>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+
+        <button class="btn btn-default btn-block" data-dismiss="modal">
+            <i class="fa fa-times"></i> Cerrar
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 <!-- ===================== SCRIPTS ===================== -->
 
