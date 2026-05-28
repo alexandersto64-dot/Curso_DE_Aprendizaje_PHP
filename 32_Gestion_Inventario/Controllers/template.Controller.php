@@ -1,7 +1,11 @@
-<?php 
-    class ControllerTemplate{
-        public function ControllerTemplate(){
-            include "Views/Template.php";
-        }
+<?php
+
+class ControllerTemplate{
+
+    public function ctrTemplate(){
+
+        include "Views/Template.php";
+
     }
-?>
+
+}

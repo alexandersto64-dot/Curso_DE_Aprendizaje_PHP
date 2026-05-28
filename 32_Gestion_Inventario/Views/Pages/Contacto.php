@@ -95,248 +95,254 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <section class="content">
 
-    <div class="box box-info">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
 
-        <div class="box-header with-border">
-            <h3 class="box-title">
-                <i class="fa fa-user-plus"></i>
-                Nuevo Contacto
-            </h3>
+            <div class="box box-info">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-user-plus"></i>
+                        Nuevo Contacto
+                    </h3>
+                </div>
+
+                <?php if ($success): ?>
+                    <div class="alert alert-success alert-dismissible margin" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="fa fa-check-circle"></i>
+                        <strong>¡Éxito!</strong> El contacto fue registrado correctamente.
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+
+                    <div class="box-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group <?= isset($errors['nombres']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-user"></i> Nombres</label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="nombres"
+                                        placeholder="Ingrese nombres"
+                                        maxlength="80"
+                                        value="<?= htmlspecialchars($nombres) ?>">
+                                    <?php if (isset($errors['nombres'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['nombres'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group <?= isset($errors['apellidos']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-user"></i> Apellidos</label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="apellidos"
+                                        placeholder="Ingrese apellidos"
+                                        maxlength="80"
+                                        value="<?= htmlspecialchars($apellidos) ?>">
+                                    <?php if (isset($errors['apellidos'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['apellidos'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group <?= isset($errors['id_empresa']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-building"></i> Empresa</label>
+                                    <select class="form-control input-lg" name="id_empresa">
+                                        <option value="">-- Selecciona Empresa --</option>
+                                        <?php foreach ($empresas as $e): ?>
+                                            <option value="<?= $e['id_empresa'] ?>"
+                                                <?= $id_empresa == $e['id_empresa'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($e['nombre_empresa']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if (isset($errors['id_empresa'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['id_empresa'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group <?= isset($errors['id_operador']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-phone-square"></i> Operador</label>
+                                    <select class="form-control input-lg" name="id_operador">
+                                        <option value="">-- Selecciona Operador --</option>
+                                        <?php foreach ($operadores as $o): ?>
+                                            <option value="<?= $o['id_operador'] ?>"
+                                                <?= $id_operador === $o['id_operador'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($o['nombre_operador']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if (isset($errors['id_operador'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['id_operador'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group <?= isset($errors['id_grupo']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-users"></i> Grupo</label>
+                                    <select class="form-control input-lg" name="id_grupo">
+                                        <option value="">-- Selecciona Grupo --</option>
+                                        <?php foreach ($grupos as $g): ?>
+                                            <option value="<?= $g['id_grupo'] ?>"
+                                                <?= $id_grupo === $g['id_grupo'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($g['nombre_grupo']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if (isset($errors['id_grupo'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['id_grupo'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group <?= isset($errors['telefono_movil']) ? 'has-error' : '' ?>">
+                                    <label><i class="fa fa-mobile"></i> Teléfono Móvil</label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="telefono_movil"
+                                        placeholder="Ej: 987654321"
+                                        maxlength="11"
+                                        value="<?= htmlspecialchars($telefono_movil) ?>">
+                                    <?php if (isset($errors['telefono_movil'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['telefono_movil'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group <?= isset($errors['telefono_casa']) ? 'has-error' : '' ?>">
+                                    <label>
+                                        <i class="fa fa-phone"></i> Teléfono Casa
+                                        <small class="text-muted">(opcional)</small>
+                                    </label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="telefono_casa"
+                                        placeholder="Ej: 014785236"
+                                        maxlength="11"
+                                        value="<?= htmlspecialchars($telefono_casa) ?>">
+                                    <?php if (isset($errors['telefono_casa'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['telefono_casa'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group <?= isset($errors['correo']) ? 'has-error' : '' ?>">
+                                    <label>
+                                        <i class="fa fa-envelope"></i> Correo Electrónico
+                                        <small class="text-muted">(opcional)</small>
+                                    </label>
+                                    <input type="email"
+                                        class="form-control input-lg"
+                                        name="correo"
+                                        placeholder="ejemplo@gmail.com"
+                                        maxlength="90"
+                                        value="<?= htmlspecialchars($correo) ?>">
+                                    <?php if (isset($errors['correo'])): ?>
+                                        <span class="help-block">
+                                            <i class="fa fa-exclamation-circle"></i>
+                                            <?= $errors['correo'] ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fa fa-birthday-cake"></i> Fecha de Cumpleaños
+                                        <small class="text-muted">(opcional)</small>
+                                    </label>
+                                    <input type="date"
+                                        class="form-control input-lg"
+                                        name="fecha_cumpleanios"
+                                        value="<?= htmlspecialchars($fecha_cumpleanios) ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fa fa-tag"></i> Descripción Grupo
+                                        <small class="text-muted">(opcional)</small>
+                                    </label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="descripcion_grupo"
+                                        placeholder="Ej: Compañero de trabajo"
+                                        maxlength="80"
+                                        value="<?= htmlspecialchars($descripcion_grupo) ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fa fa-sticky-note"></i> Observaciones
+                                        <small class="text-muted">(opcional)</small>
+                                    </label>
+                                    <input type="text"
+                                        class="form-control input-lg"
+                                        name="observaciones"
+                                        placeholder="Ingrese observaciones"
+                                        maxlength="100"
+                                        value="<?= htmlspecialchars($observaciones) ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="box-footer text-right">
+                        <a href="index.php?Pages=Listar_Contacto" class="btn btn-default btn-lg">
+                            <i class="fa fa-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-info btn-lg">
+                            <i class="fa fa-save"></i> Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
         </div>
-
-        <?php if ($success): ?>
-            <div class="alert alert-success alert-dismissible margin" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <i class="fa fa-check-circle"></i>
-                <strong>¡Éxito!</strong> El contacto fue registrado correctamente.
-            </div>
-        <?php endif; ?>
-
-        <form method="POST">
-
-            <div class="box-body">
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group <?= isset($errors['nombres']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-user"></i> Nombres</label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="nombres"
-                                placeholder="Ingrese nombres"
-                                maxlength="80"
-                                value="<?= htmlspecialchars($nombres) ?>">
-                            <?php if (isset($errors['nombres'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['nombres'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group <?= isset($errors['apellidos']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-user"></i> Apellidos</label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="apellidos"
-                                placeholder="Ingrese apellidos"
-                                maxlength="80"
-                                value="<?= htmlspecialchars($apellidos) ?>">
-                            <?php if (isset($errors['apellidos'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['apellidos'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group <?= isset($errors['id_empresa']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-building"></i> Empresa</label>
-                            <select class="form-control input-lg" name="id_empresa">
-                                <option value="">-- Selecciona Empresa --</option>
-                                <?php foreach ($empresas as $e): ?>
-                                    <option value="<?= $e['id_empresa'] ?>"
-                                        <?= $id_empresa == $e['id_empresa'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($e['nombre_empresa']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php if (isset($errors['id_empresa'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['id_empresa'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group <?= isset($errors['id_operador']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-phone-square"></i> Operador</label>
-                            <select class="form-control input-lg" name="id_operador">
-                                <option value="">-- Selecciona Operador --</option>
-                                <?php foreach ($operadores as $o): ?>
-                                    <option value="<?= $o['id_operador'] ?>"
-                                        <?= $id_operador === $o['id_operador'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($o['nombre_operador']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php if (isset($errors['id_operador'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['id_operador'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group <?= isset($errors['id_grupo']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-users"></i> Grupo</label>
-                            <select class="form-control input-lg" name="id_grupo">
-                                <option value="">-- Selecciona Grupo --</option>
-                                <?php foreach ($grupos as $g): ?>
-                                    <option value="<?= $g['id_grupo'] ?>"
-                                        <?= $id_grupo === $g['id_grupo'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($g['nombre_grupo']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?php if (isset($errors['id_grupo'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['id_grupo'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group <?= isset($errors['telefono_movil']) ? 'has-error' : '' ?>">
-                            <label><i class="fa fa-mobile"></i> Teléfono Móvil</label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="telefono_movil"
-                                placeholder="Ej: 987654321"
-                                maxlength="11"
-                                value="<?= htmlspecialchars($telefono_movil) ?>">
-                            <?php if (isset($errors['telefono_movil'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['telefono_movil'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group <?= isset($errors['telefono_casa']) ? 'has-error' : '' ?>">
-                            <label>
-                                <i class="fa fa-phone"></i> Teléfono Casa
-                                <small class="text-muted">(opcional)</small>
-                            </label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="telefono_casa"
-                                placeholder="Ej: 014785236"
-                                maxlength="11"
-                                value="<?= htmlspecialchars($telefono_casa) ?>">
-                            <?php if (isset($errors['telefono_casa'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['telefono_casa'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group <?= isset($errors['correo']) ? 'has-error' : '' ?>">
-                            <label>
-                                <i class="fa fa-envelope"></i> Correo Electrónico
-                                <small class="text-muted">(opcional)</small>
-                            </label>
-                            <input type="email"
-                                class="form-control input-lg"
-                                name="correo"
-                                placeholder="ejemplo@gmail.com"
-                                maxlength="90"
-                                value="<?= htmlspecialchars($correo) ?>">
-                            <?php if (isset($errors['correo'])): ?>
-                                <span class="help-block">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                    <?= $errors['correo'] ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>
-                                <i class="fa fa-birthday-cake"></i> Fecha de Cumpleaños
-                                <small class="text-muted">(opcional)</small>
-                            </label>
-                            <input type="date"
-                                class="form-control input-lg"
-                                name="fecha_cumpleanios"
-                                value="<?= htmlspecialchars($fecha_cumpleanios) ?>">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>
-                                <i class="fa fa-tag"></i> Descripción Grupo
-                                <small class="text-muted">(opcional)</small>
-                            </label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="descripcion_grupo"
-                                placeholder="Ej: Compañero de trabajo"
-                                maxlength="80"
-                                value="<?= htmlspecialchars($descripcion_grupo) ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>
-                                <i class="fa fa-sticky-note"></i> Observaciones
-                                <small class="text-muted">(opcional)</small>
-                            </label>
-                            <input type="text"
-                                class="form-control input-lg"
-                                name="observaciones"
-                                placeholder="Ingrese observaciones"
-                                maxlength="100"
-                                value="<?= htmlspecialchars($observaciones) ?>">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="box-footer text-right">
-                <a href="index.php?page=Listar_Contacto" class="btn btn-default btn-lg">
-                    <i class="fa fa-arrow-left"></i> Cancelar
-                </a>
-                <button type="submit" class="btn btn-info btn-lg">
-                    <i class="fa fa-save"></i> Guardar
-                </button>
-            </div>
-
-        </form>
-
     </div>
 
 </section>

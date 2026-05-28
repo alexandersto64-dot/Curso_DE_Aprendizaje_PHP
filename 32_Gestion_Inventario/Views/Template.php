@@ -1,5 +1,15 @@
+
+<?php
+
+if(session_status() == PHP_SESSION_NONE){
+
+    session_start();
+
+}
+
+?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
 
@@ -12,44 +22,54 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="Views/Resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="Views/Resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="Views/Resources/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Font Awesome CDN (respaldo) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"
+        href="Views/Resources/bower_components/font-awesome/css/font-awesome.min.css">
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Ionicons -->
-  <link rel="stylesheet" href="Views/Resources/bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet"
+        href="Views/Resources/bower_components/Ionicons/css/ionicons.min.css">
 
   <!-- AdminLTE -->
-  <link rel="stylesheet" href="Views/Resources/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet"
+        href="Views/Resources/dist/css/AdminLTE.min.css">
 
   <!-- Skins -->
-  <link rel="stylesheet" href="Views/Resources/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet"
+        href="Views/Resources/dist/css/skins/_all-skins.min.css">
 
   <!-- DataTables -->
   <link rel="stylesheet"
-    href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap.min.css">
+        href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap.min.css">
 
   <link rel="stylesheet"
-    href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap.min.css">
+        href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap.min.css">
 
   <link rel="stylesheet"
-    href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap.min.css">
+        href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap.min.css">
 
   <!-- CSS PERSONALIZADO -->
-  <link rel="stylesheet" href="Views/Resources/custom.css">
+  <link rel="stylesheet"
+        href="Views/Resources/custom.css">
 
   <!-- Google Font -->
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700">
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700">
 
   <style>
 
     .user-menu .dropdown-menu{
+
       right: 0;
       left: auto;
+
     }
 
   </style>
@@ -57,6 +77,20 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+
+<?php
+
+/* =========================================
+   SI NO HAY SESION
+========================================= */
+
+if(!isset($_SESSION["usuario"])){
+
+    include "Pages/Login.php";
+
+}else{
+
+?>
 
 <div class="wrapper">
 
@@ -87,48 +121,53 @@
 
     ];
 
-    if (isset($_GET["Pages"])) {
+    if(isset($_GET["Pages"])){
 
-      $pagina = $_GET["Pages"];
+        $pagina = $_GET["Pages"];
 
-      if (in_array($pagina, $paginas)) {
+        if(in_array($pagina, $paginas)){
 
-        include "Pages/" . $pagina . ".php";
+            include "Pages/" . $pagina . ".php";
 
-      } else {
+        }else{
 
-        echo '
+            echo '
 
-        <section class="content">
+            <section class="content">
 
-          <div class="error-page">
+              <div class="error-page">
 
-            <h2 class="headline text-red">404</h2>
+                <h2 class="headline text-red">404</h2>
 
-            <div class="error-content">
+                <div class="error-content">
 
-              <h3>
-                <i class="fa fa-warning text-red"></i>
-                Página no encontrada
-              </h3>
+                  <h3>
 
-              <p>
-                La página que intenta acceder no existe.
-              </p>
+                    <i class="fa fa-warning text-red"></i>
 
-            </div>
+                    Página no encontrada
 
-          </div>
+                  </h3>
 
-        </section>
+                  <p>
 
-        ';
+                    La página que intenta acceder no existe.
 
-      }
+                  </p>
 
-    } else {
+                </div>
 
-      include "Pages/Inicio.php";
+              </div>
+
+            </section>
+
+            ';
+
+        }
+
+    }else{
+
+        include "Pages/Inicio.php";
 
     }
 
@@ -140,6 +179,8 @@
   <?php include "Modules/Footer.php"; ?>
 
 </div>
+
+<?php } ?>
 
 <!-- ===================== SCRIPTS ===================== -->
 
@@ -191,22 +232,35 @@
 
 <!-- ===================== CONFIGURACIONES ===================== -->
 
+
 <script>
 
 $(document).ready(function () {
 
+    // =========================================
     // ACTIVAR SIDEBAR
+    // =========================================
+
     $('.sidebar-menu').tree();
 
+    // =========================================
     // DATATABLE
+    // =========================================
+
     $('.tablaData').DataTable({
 
         responsive: true,
+
         autoWidth: false,
 
         pageLength: 5,
 
-        lengthMenu: [5, 10, 25, 50, 100],
+        lengthMenu: [
+
+            [5, 10, 25, 50, 100],
+            [5, 10, 25, 50, 100]
+
+        ],
 
         dom: 'Bfrtip',
 
@@ -214,25 +268,37 @@ $(document).ready(function () {
 
             {
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel-o"></i> Excel',
+
+                text:
+                '<i class="fa fa-file-excel-o"></i> Excel',
+
                 className: 'btn btn-success'
             },
 
             {
                 extend: 'csv',
-                text: '<i class="fa fa-file-text-o"></i> CSV',
+
+                text:
+                '<i class="fa fa-file-text-o"></i> CSV',
+
                 className: 'btn btn-info'
             },
 
             {
                 extend: 'pdf',
-                text: '<i class="fa fa-file-pdf-o"></i> PDF',
+
+                text:
+                '<i class="fa fa-file-pdf-o"></i> PDF',
+
                 className: 'btn btn-danger'
             },
 
             {
                 extend: 'print',
-                text: '<i class="fa fa-print"></i> Imprimir',
+
+                text:
+                '<i class="fa fa-print"></i> Imprimir',
+
                 className: 'btn btn-default'
             }
 
@@ -241,32 +307,53 @@ $(document).ready(function () {
         language: {
 
             decimal: "",
-            emptyTable: "No hay información",
 
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            emptyTable:
+            "No hay información",
 
-            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            info:
+            "Mostrando _START_ a _END_ de _TOTAL_ registros",
 
-            infoFiltered: "(Filtrado de _MAX_ registros totales)",
+            infoEmpty:
+            "Mostrando 0 a 0 de 0 registros",
+
+            infoFiltered:
+            "(Filtrado de _MAX_ registros totales)",
 
             thousands: ",",
 
-            lengthMenu: "Mostrar _MENU_ registros",
+            lengthMenu:
+            "Mostrar _MENU_ registros",
 
-            loadingRecords: "Cargando...",
+            loadingRecords:
+            "Cargando...",
 
-            processing: "Procesando...",
+            processing:
+            "Procesando...",
 
-            search: "Buscar:",
+            search:
+            "Buscar:",
 
-            zeroRecords: "No se encontraron resultados",
+            zeroRecords:
+            "No se encontraron resultados",
 
             paginate: {
 
                 first: "Primero",
+
                 last: "Último",
+
                 next: "›",
+
                 previous: "‹"
+
+            },
+
+            buttons: {
+
+                copy: "Copiar",
+
+                colvis: "Columnas"
 
             }
 
@@ -274,47 +361,95 @@ $(document).ready(function () {
 
     });
 
-    // ===================== MODAL EDITAR =====================
+    // =========================================
+    // MODAL EDITAR
+    // =========================================
 
-    $(document).on('click', '[data-target="#modalEditar"]', function () {
+    $(document).on(
 
-        $('#edit_id').val($(this).attr('data-id'));
+        'click',
 
-        $('#edit_id_show').val($(this).attr('data-id'));
+        '[data-target="#modalEditar"]',
 
-        $('#edit_nombre').val($(this).attr('data-nombre'));
+        function () {
 
-        $('#edit_direccion').val($(this).attr('data-direccion'));
+            $('#edit_id').val(
+                $(this).attr('data-id')
+            );
 
-        $('#edit_telefono').val($(this).attr('data-telefono'));
+            $('#edit_id_show').val(
+                $(this).attr('data-id')
+            );
 
-        $('#edit_nombres').val($(this).attr('data-nombres'));
+            $('#edit_nombre').val(
+                $(this).attr('data-nombre')
+            );
 
-        $('#edit_apellidos').val($(this).attr('data-apellidos'));
+            $('#edit_direccion').val(
+                $(this).attr('data-direccion')
+            );
 
-        $('#edit_correo').val($(this).attr('data-correo'));
+            $('#edit_telefono').val(
+                $(this).attr('data-telefono')
+            );
 
-        $('#edit_empresa').val($(this).attr('data-empresa'));
+            $('#edit_nombres').val(
+                $(this).attr('data-nombres')
+            );
 
-        $('#edit_operador').val($(this).attr('data-operador'));
+            $('#edit_apellidos').val(
+                $(this).attr('data-apellidos')
+            );
 
-        $('#edit_grupo').val($(this).attr('data-grupo'));
+            $('#edit_correo').val(
+                $(this).attr('data-correo')
+            );
 
-    });
+            $('#edit_empresa').val(
+                $(this).attr('data-empresa')
+            );
 
-    // ===================== MODAL ELIMINAR =====================
+            $('#edit_operador').val(
+                $(this).attr('data-operador')
+            );
 
-    $(document).on('click', '[data-target="#modalEliminar"]', function () {
+            $('#edit_grupo').val(
+                $(this).attr('data-grupo')
+            );
 
-        $('#del_id').val($(this).attr('data-id'));
+        }
 
-        $('#del_nombre').text($(this).attr('data-nombre'));
+    );
 
-    });
+    // =========================================
+    // MODAL ELIMINAR
+    // =========================================
+
+    $(document).on(
+
+        'click',
+
+        '[data-target="#modalEliminar"]',
+
+        function () {
+
+            $('#del_id').val(
+                $(this).attr('data-id')
+            );
+
+            $('#del_nombre').text(
+                $(this).attr('data-nombre')
+            );
+
+        }
+
+    );
 
 });
 
 </script>
+
+
 
 </body>
 </html>

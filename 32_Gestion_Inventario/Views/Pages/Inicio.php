@@ -22,7 +22,20 @@ $ultimos = $pdo->query("
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
 
-    .dash-wrap * { font-family: 'Sora', sans-serif; }
+    .dash-wrap,
+.dash-wrap p,
+.dash-wrap h1,
+.dash-wrap h2,
+.dash-wrap h3,
+.dash-wrap h4,
+.dash-wrap h5,
+.dash-wrap span,
+.dash-wrap div,
+.dash-wrap a,
+.dash-wrap td,
+.dash-wrap th {
+    font-family: 'Sora', sans-serif;
+}
 
     .dash-hero {
         background: linear-gradient(135deg, #1a2a4a 0%, #1d4ed8 60%, #0ea5e9 100%);
@@ -181,6 +194,66 @@ $ultimos = $pdo->query("
         font-weight: 600;
     }
 
+    /* Accesos Rápidos */
+    .acceso-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        padding: 11px 16px;
+        border: 2px solid #e2e8f0;
+        font-weight: 600;
+        color: #1e293b;
+        background: #fff;
+        text-decoration: none;
+        transition: all .2s;
+    }
+    .acceso-btn:hover {
+        border-color: #c7d2fe;
+        background: #f8faff;
+        color: #1e293b;
+        transform: translateX(4px);
+        text-decoration: none;
+    }
+    .acceso-btn .ab-icon {
+        width: 34px; height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: #fff;
+        flex-shrink: 0;
+    }
+    .acceso-btn .ab-text { font-size: 13px; font-weight: 600; }
+    .acceso-btn .ab-arrow {
+        margin-left: auto;
+        font-size: 14px;
+        color: #94a3b8;
+        transition: transform .2s;
+    }
+    .acceso-btn:hover .ab-arrow { transform: translateX(3px); }
+
+    #cuerpoAccesos {
+        transition: max-height .35s ease, opacity .35s ease;
+        max-height: 500px;
+        opacity: 1;
+        overflow: hidden;
+    }
+    #cuerpoAccesos.collapsed {
+        max-height: 0;
+        opacity: 0;
+        padding: 0 16px !important;
+    }
+    .toggle-arrow {
+        font-size: 14px;
+        margin-left: auto;
+        transition: transform .3s;
+        opacity: .8;
+    }
+    .toggle-arrow.rotated { transform: rotate(180deg); }
+
     .info-card {
         background: #fff;
         border-radius: 14px;
@@ -222,11 +295,14 @@ $ultimos = $pdo->query("
             <i class="fa fa-calendar"></i>
             <?= date('d \d\e F \d\e Y') ?>
         </span>
-        <h1><i class="fa fa-address-book" style="margin-right:10px;"></i>Sistema de Agenda 2026</h1>
+        <h1>
+            <i class="fa fa-address-book" style="margin-right:10px;"></i>
+            Sistema de Agenda 2026
+        </h1>
         <p>Administra operadores, empresas, grupos y contactos de manera rápida y segura.</p>
         <i class="fa fa-address-book hero-icon"></i>
     </div>
-
+    
     <!-- TARJETAS ESTADÍSTICAS -->
     <div class="row anim-2">
 
@@ -235,8 +311,8 @@ $ultimos = $pdo->query("
                 <div class="sc-num counter" data-target="<?= $total_operadores ?>">0</div>
                 <div class="sc-label">Operadores</div>
                 <div class="sc-sub">Registrados en el sistema</div>
-                <i class="fa fa-phone-square sc-bg-icon"></i>
-                <i class="fa fa-arrow-right sc-arrow"></i>
+                <i class="fa fa-user-plus sc-bg-icon"></i>
+                <i class="fa fa-angle-right sc-arrow"></i>
             </a>
         </div>
 
@@ -246,7 +322,7 @@ $ultimos = $pdo->query("
                 <div class="sc-label">Empresas</div>
                 <div class="sc-sub">Asociadas al sistema</div>
                 <i class="fa fa-building sc-bg-icon"></i>
-                <i class="fa fa-arrow-right sc-arrow"></i>
+                <i class="fa fa-angle-right sc-arrow"></i>
             </a>
         </div>
 
@@ -256,7 +332,7 @@ $ultimos = $pdo->query("
                 <div class="sc-label">Grupos</div>
                 <div class="sc-sub">Categorías de contacto</div>
                 <i class="fa fa-users sc-bg-icon"></i>
-                <i class="fa fa-arrow-right sc-arrow"></i>
+                <i class="fa fa-angle-right sc-arrow"></i>
             </a>
         </div>
 
@@ -265,8 +341,8 @@ $ultimos = $pdo->query("
                 <div class="sc-num counter" data-target="<?= $total_contactos ?>">0</div>
                 <div class="sc-label">Contactos</div>
                 <div class="sc-sub">En tu agenda</div>
-                <i class="fa fa-book sc-bg-icon"></i>
-                <i class="fa fa-arrow-right sc-arrow"></i>
+                <i class="fa fa-address-book sc-bg-icon"></i>
+                <i class="fa fa-angle-right sc-arrow"></i>
             </a>
         </div>
 
@@ -318,7 +394,7 @@ $ultimos = $pdo->query("
                                     </div>
                                 </td>
                                 <td style="color:#475569;">
-                                    <i class="fa fa-building" style="color:#94a3b8;margin-right:5px;"></i>
+                                    <i class="fa fa-building-o" style="color:#94a3b8;margin-right:5px;"></i>
                                     <?= htmlspecialchars($u['nombre_empresa']) ?>
                                 </td>
                                 <td>
@@ -340,54 +416,69 @@ $ultimos = $pdo->query("
                 </table>
                 <div style="padding:12px 22px;background:#f8fafc;border-top:1px solid #e2e8f0;text-align:right;">
                     <a href="index.php?Pages=Listar_Contacto" class="btn btn-sm btn-primary">
-                        Ver todos <i class="fa fa-arrow-right"></i>
+                        Ver todos <i class="fa fa-angle-right"></i>
                     </a>
                 </div>
             </div>
         </div>
 
-<!-- ACCESOS RÁPIDOS -->
-<div class="col-md-4">
-    <div class="recent-box" style="height:calc(100% - 20px);">
-        <div class="rb-header">
-            ⚡
-            <h4>Accesos Rápidos</h4>
+        <!-- ACCESOS RÁPIDOS -->
+        <div class="col-md-4">
+            <div class="recent-box" style="margin-bottom:20px;">
+
+                <div class="rb-header"
+                    style="cursor:pointer;user-select:none;"
+                    onclick="toggleAccesos()">
+                    <i class="fa fa-pencil-square-o"></i>
+                    <h4 style="flex:1;">Accesos Rápidos</h4>
+                    <i class="fa fa-angle-up toggle-arrow" id="iconoAccesos"></i>
+                </div>
+
+                <div id="cuerpoAccesos" style="padding:14px 16px;">
+
+                    <a href="index.php?Pages=Contacto" class="acceso-btn">
+                        <span class="ab-icon" style="background:linear-gradient(135deg,#be123c,#f43f5e);">
+                            <i class="fa fa-address-book"></i>
+                        </span>
+                        <span class="ab-text">Nuevo Contacto</span>
+                        <i class="fa fa-angle-right ab-arrow"></i>
+                    </a>
+
+                    <a href="index.php?Pages=Empresa" class="acceso-btn">
+                        <span class="ab-icon" style="background:linear-gradient(135deg,#059669,#10b981);">
+                            <i class="fa fa-building"></i>
+                        </span>
+                        <span class="ab-text">Nueva Empresa</span>
+                        <i class="fa fa-angle-right ab-arrow"></i>
+                    </a>
+
+                    <a href="index.php?Pages=Operador" class="acceso-btn">
+                        <span class="ab-icon" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">
+                            <i class="fa fa-user-plus"></i>
+                        </span>
+                        <span class="ab-text">Nuevo Operador</span>
+                        <i class="fa fa-angle-right ab-arrow"></i>
+                    </a>
+
+                    <a href="index.php?Pages=Grupo" class="acceso-btn">
+                        <span class="ab-icon" style="background:linear-gradient(135deg,#d97706,#fbbf24);">
+                            <i class="fa fa-users"></i>
+                        </span>
+                        <span class="ab-text">Nuevo Grupo</span>
+                        <i class="fa fa-angle-right ab-arrow"></i>
+                    </a>
+
+                    <a href="index.php?Pages=Listar_Contacto" class="acceso-btn" style="margin-bottom:0;">
+                        <span class="ab-icon" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6);">
+                            <i class="fa fa-list"></i>
+                        </span>
+                        <span class="ab-text">Ver Agenda Completa</span>
+                        <i class="fa fa-angle-right ab-arrow"></i>
+                    </a>
+
+                </div>
+            </div>
         </div>
-        <div style="padding:16px;">
-
-            <a href="index.php?Pages=Contacto" class="btn btn-block btn-default"
-                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                <span style="color:#f43f5e;margin-right:8px;font-size:16px;">👤</span>
-                Nuevo Contacto
-            </a>
-
-            <a href="index.php?Pages=Empresa" class="btn btn-block btn-default"
-                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                <span style="color:#10b981;margin-right:8px;font-size:16px;">🏢</span>
-                Nueva Empresa
-            </a>
-
-            <a href="index.php?Pages=Operador" class="btn btn-block btn-default"
-                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                <span style="color:#3b82f6;margin-right:8px;font-size:16px;">📱</span>
-                Nuevo Operador
-            </a>
-
-            <a href="index.php?Pages=Grupo" class="btn btn-block btn-default"
-                style="text-align:left;margin-bottom:10px;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                <span style="color:#f59e0b;margin-right:8px;font-size:16px;">👥</span>
-                Nuevo Grupo
-            </a>
-
-            <a href="index.php?Pages=Listar_Contacto" class="btn btn-block btn-default"
-                style="text-align:left;border-radius:10px;padding:12px 16px;border:2px solid #e2e8f0;font-weight:600;color:#1e293b;">
-                <span style="color:#8b5cf6;margin-right:8px;font-size:16px;">📋</span>
-                Ver Agenda Completa
-            </a>
-
-        </div>
-    </div>
-</div>
 
     </div>
 
@@ -397,7 +488,7 @@ $ultimos = $pdo->query("
         <div class="col-md-3 col-sm-6" style="margin-bottom:20px;">
             <div class="info-card">
                 <div class="ic-icon" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">
-                    <i class="fa fa-phone-square"></i>
+                    <i class="fa fa-user-plus"></i>
                 </div>
                 <h4>Operadores</h4>
                 <p>Registra y administra operadores telefónicos del sistema.</p>
@@ -427,7 +518,7 @@ $ultimos = $pdo->query("
         <div class="col-md-3 col-sm-6" style="margin-bottom:20px;">
             <div class="info-card">
                 <div class="ic-icon" style="background:linear-gradient(135deg,#be123c,#f43f5e);">
-                    <i class="fa fa-book"></i>
+                    <i class="fa fa-address-book"></i>
                 </div>
                 <h4>Contactos</h4>
                 <p>Gestiona toda tu agenda con información detallada.</p>
@@ -439,6 +530,13 @@ $ultimos = $pdo->query("
 </section>
 
 <script>
+function toggleAccesos() {
+    var cuerpo = document.getElementById('cuerpoAccesos');
+    var icono  = document.getElementById('iconoAccesos');
+    cuerpo.classList.toggle('collapsed');
+    icono.classList.toggle('rotated');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.counter').forEach(function (el) {
         var target   = parseInt(el.getAttribute('data-target'));

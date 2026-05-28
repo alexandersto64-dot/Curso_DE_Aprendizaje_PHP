@@ -1,19 +1,36 @@
 <?php
 
-class Conexion
-{
+class Conexion{
 
-    static public function conectar()
-    {
+    static public function conectar(){
 
-        $link = new PDO(
-            "mysql:host=localhost;dbname=bdagenda2026",
-            "root",
-            ""
-        );
+        try{
 
-        $link->exec("set names utf8");
+            $link = new PDO(
 
-        return $link;
+                "mysql:host=localhost;dbname=bdagenda2026",
+                "root",
+                ""
+
+            );
+
+            $link->exec("SET NAMES utf8");
+
+            $link->setAttribute(
+
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+
+            );
+
+            return $link;
+
+        }catch(PDOException $e){
+
+            die("Error de conexión: " . $e->getMessage());
+
+        }
+
     }
+
 }
